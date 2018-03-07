@@ -820,7 +820,10 @@
             }
 
             if (this.options.enableCollapsibleOptGroups && this.options.multiple) {
-                $("li.multiselect-group .caret-container", this.$ul).on("click", $.proxy(function(event) {
+              //lolo:  case no clickable group but only collapsible, affect event on the <a>
+                var actionElem = this.options.enableClickableOptGroups ? "li.multiselect-group .caret-container" : "li.multiselect-group a";
+
+                $(actionElem, this.$ul).on("click", $.proxy(function(event) {
                     var $li = $(event.target).closest('li');
                     var $inputs = $li.nextUntil("li.multiselect-group")
                             .not('.multiselect-filter-hidden');
