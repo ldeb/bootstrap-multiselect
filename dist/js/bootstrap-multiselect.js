@@ -422,6 +422,7 @@
             enableClickableOptGroups: false,
             enableCollapsibleOptGroups: false,
             collapsibleOptGroupsClosed: false,  //lolo
+            collapsibleOptGroupsClosedButSelectedOptVisible: false,  //lolo
             filterPlaceholder: 'Search',
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
@@ -829,6 +830,10 @@
                     var $inputs = $li.nextUntil("li.multiselect-group")
                             .not('.multiselect-filter-hidden');
 
+                    if(this.options.collapsibleOptGroupsClosedButSelectedOptVisible) {  // lolo
+                      $inputs = $inputs.not('.active');
+                    }
+
                     var visible = true;
                     $inputs.each(function() {
                         visible = visible && $(this).is(':visible');
@@ -849,13 +854,20 @@
                 $("li.multiselect-group > a > input", this.$ul).css('margin', '4px 0px 5px -20px');
 
                 if(this.options.collapsibleOptGroupsClosed) { // lolo: collapse optGroups by default
-                  $(actionElem, this.$ul).each(function() {
-                    var $li = $(this).closest('li');
+                  $(actionElem, this.$ul).each($.proxy(function(index, element) {
+
+                    var $li = $(element).closest('li');
                     var $inputs = $li.nextUntil("li.multiselect-group")
                             .not('.multiselect-filter-hidden');
+
+                    if(this.options.collapsibleOptGroupsClosedButSelectedOptVisible) {
+                      $inputs = $inputs.not('.active');
+                    }
+
                     $inputs.hide()
                         .addClass('multiselect-collapsible-hidden');
-                  });
+
+                  }, this));
                 }
             }
         },
