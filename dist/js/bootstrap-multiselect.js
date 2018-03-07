@@ -421,6 +421,7 @@
             enableFullValueFiltering: false,
             enableClickableOptGroups: false,
             enableCollapsibleOptGroups: false,
+            collapsibleOptGroupsClosed: false,  //lolo
             filterPlaceholder: 'Search',
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
@@ -846,6 +847,16 @@
                 $("li.multiselect-all", this.$ul).css('background', '#f3f3f3').css('border-bottom', '1px solid #eaeaea');
                 $("li.multiselect-all > a > label.checkbox", this.$ul).css('padding', '3px 20px 3px 35px');
                 $("li.multiselect-group > a > input", this.$ul).css('margin', '4px 0px 5px -20px');
+
+                if(this.options.collapsibleOptGroupsClosed) { // lolo: collapse optGroups by default
+                  $(actionElem, this.$ul).each(function() {
+                    var $li = $(this).closest('li');
+                    var $inputs = $li.nextUntil("li.multiselect-group")
+                            .not('.multiselect-filter-hidden');
+                    $inputs.hide()
+                        .addClass('multiselect-collapsible-hidden');
+                  });
+                }
             }
         },
 
